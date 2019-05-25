@@ -8,6 +8,6 @@ namespace WorkLogService.Models
 
         public string Name { get; set; }
 
-        public DateTime? DateAdded { get; set; }
+        public DateTime DateAdded { get { return DateTime.Now; } set { } }
     }
 }

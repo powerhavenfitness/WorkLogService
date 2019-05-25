@@ -16,6 +16,6 @@ namespace WorkLogService.Models
 
         public double Load { get; set; }
 
-        public DateTime DateAdded { get; set; }
+        public DateTime DateAdded { get { return DateTime.Now; } set { } }
     }
 }
