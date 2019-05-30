@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WorkLogService.Contexts;
-using WorkLogService.Models;
+using WorkLogService.Core.Models;
+using WorkLogService.Infrastructure.Contexts;
 
-namespace WorkLogService.Controllers
+namespace WorkLogService.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,21 +14,16 @@ namespace WorkLogService.Controllers
     {
         private readonly WorkLogDbContext _context;
 
-        public SessionsController(WorkLogDbContext context)
-        {
-            _context = context;
-        }
-
-        // GET: api/Sessions
+        // GET api/sessions
         [HttpGet]
-        public IEnumerable<Session> GetSessions()
+        public ActionResult<IEnumerable<Session>> GetSessions()
         {
             return _context.Sessions;
         }
 
-        // GET: api/Sessions/5
+        // GET api/sessions/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSession([FromRoute] int id)
+        public async Task<ActionResult> GetSession([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +40,22 @@ namespace WorkLogService.Controllers
             return Ok(session);
         }
 
-        // PUT: api/Sessions/5
+        // POST api/sessions
+        [HttpPost]
+        public async Task<IActionResult> PostSession([FromBody] Session session)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Sessions.Add(session);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetSession", new { id = session.Id }, session);
+        }
+
+        // PUT api/sessions/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSession([FromRoute] int id, [FromBody] Session session)
         {
@@ -82,22 +90,7 @@ namespace WorkLogService.Controllers
             return NoContent();
         }
 
-        // POST: api/Sessions
-        [HttpPost]
-        public async Task<IActionResult> PostSession([FromBody] Session session)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _context.Sessions.Add(session);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetSession", new { id = session.Id }, session);
-        }
-
-        // DELETE: api/Sessions/5
+        // DELETE api/sessions/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSession([FromRoute] int id)
         {
@@ -120,7 +113,12 @@ namespace WorkLogService.Controllers
 
         private bool SessionExists(int id)
         {
-            return _context.Sessions.Any(e => e.Id == id);
+            return _context.Sessions.Any(s => s.Id == id);
+        }
+
+        public SessionsController(WorkLogDbContext context)
+        {
+            _context = context;
         }
     }
 }

@@ -3,44 +3,33 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WorkLogService.Contexts;
+using WorkLogService.Infrastructure.Contexts;
 
-namespace WorkLogService.Migrations
+namespace WorkLogService.Infrastructure.Migrations
 {
     [DbContext(typeof(WorkLogDbContext))]
-    partial class WorkLogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190530141040_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("WorkLogService.Models.Exercise", b =>
+            modelBuilder.Entity("WorkLogService.Core.Models.Session", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateAdded");
+                    b.Property<DateTime>("DateCreated");
 
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Exercises");
-                });
-
-            modelBuilder.Entity("WorkLogService.Models.Session", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateAdded");
+                    b.Property<DateTime>("DateUpdated");
 
                     b.Property<int>("UserId");
 
@@ -49,19 +38,21 @@ namespace WorkLogService.Migrations
                     b.ToTable("Sessions");
                 });
 
-            modelBuilder.Entity("WorkLogService.Models.Workout", b =>
+            modelBuilder.Entity("WorkLogService.Core.Models.Workout", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DateAdded");
+                    b.Property<DateTime>("DateCreated");
 
-                    b.Property<int>("ExerciseId");
+                    b.Property<DateTime>("DateUpdated");
+
+                    b.Property<int>("Exercise");
 
                     b.Property<double>("Load");
 
-                    b.Property<int>("Repos");
+                    b.Property<int>("Reps");
 
                     b.Property<int>("SessionId");
 
