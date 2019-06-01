@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WorkLogService.Core.Models;
-using WorkLogService.Infrastructure.Contexts;
+using WorkLogService.Interfaces.Core;
+using WorkLogService.Interfaces.Infrastructure;
 
 namespace WorkLogService.Api.Controllers
 {
@@ -12,11 +12,11 @@ namespace WorkLogService.Api.Controllers
     [ApiController]
     public class WorkoutsController : ControllerBase
     {
-        private readonly WorkLogDbContext _context;
+        private readonly IContext _context;
 
         // GET api/Workouts
         [HttpGet]
-        public ActionResult<IEnumerable<Workout>> GetWorkouts()
+        public ActionResult<IEnumerable<IWorkout>> GetWorkouts()
         {
             return _context.Workouts;
         }
@@ -42,7 +42,7 @@ namespace WorkLogService.Api.Controllers
 
         // POST api/Workouts
         [HttpPost]
-        public async Task<IActionResult> PostWorkout([FromBody] Workout Workout)
+        public async Task<IActionResult> PostWorkout([FromBody] IWorkout Workout)
         {
             if (!ModelState.IsValid)
             {
@@ -50,14 +50,14 @@ namespace WorkLogService.Api.Controllers
             }
 
             _context.Workouts.Add(Workout);
-            await _context.SaveChangesAsync();
+            await ((DbContext)_context).SaveChangesAsync();
 
             return CreatedAtAction("GetWorkout", new { id = Workout.Id }, Workout);
         }
 
         // PUT api/Workouts/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkout([FromRoute] int id, [FromBody] Workout Workout)
+        public async Task<IActionResult> PutWorkout([FromRoute] int id, [FromBody] IWorkout Workout)
         {
             if (!ModelState.IsValid)
             {
@@ -69,11 +69,11 @@ namespace WorkLogService.Api.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(Workout).State = EntityState.Modified;
+            ((DbContext)_context).Entry(Workout).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await ((DbContext)_context).SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -106,7 +106,7 @@ namespace WorkLogService.Api.Controllers
             }
 
             _context.Workouts.Remove(workout);
-            await _context.SaveChangesAsync();
+            await ((DbContext)_context).SaveChangesAsync();
 
             return Ok(workout);
         }
@@ -116,7 +116,7 @@ namespace WorkLogService.Api.Controllers
             return _context.Workouts.Any(w => w.Id == id);
         }
 
-        public WorkoutsController(WorkLogDbContext context)
+        public WorkoutsController(IContext context)
         {
             _context = context;
         }

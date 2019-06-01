@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Linq;
 using WorkLogService.Core.Enums;
+using WorkLogService.Interfaces.Core;
+using WorkLogService.Interfaces.Infrastructure;
 
 namespace WorkLogService.Core.Models
 {
-    public class Workout
+    public class Workout : IWorkout
     {
         public int Id { get; set; }
 
