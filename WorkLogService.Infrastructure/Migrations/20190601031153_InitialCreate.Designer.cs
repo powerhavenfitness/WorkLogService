@@ -10,7 +10,7 @@ using WorkLogService.Infrastructure.Contexts;
 namespace WorkLogService.Infrastructure.Migrations
 {
     [DbContext(typeof(WorkLogDbContext))]
-    [Migration("20190530141040_InitialCreate")]
+    [Migration("20190601031153_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
