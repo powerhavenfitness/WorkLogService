@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 using WorkLogService.Api.Configurations;
 using WorkLogService.Infrastructure.Contexts;
 
@@ -56,6 +57,13 @@ namespace WorkLogService.Api
 
             services.AddDbContext<WorkLogDbContext>
                 (options => options.UseSqlServer(connectionString.DefaultConnection));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,6 +80,13 @@ namespace WorkLogService.Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
         }
     }
 }

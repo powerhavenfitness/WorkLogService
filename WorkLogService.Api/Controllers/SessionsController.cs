@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WorkLogService.Interfaces.Core;
-using WorkLogService.Interfaces.Infrastructure;
+using WorkLogService.Core.Models;
+using WorkLogService.Infrastructure.Contexts;
 
 namespace WorkLogService.Api.Controllers
 {
@@ -12,11 +12,11 @@ namespace WorkLogService.Api.Controllers
     [ApiController]
     public class SessionsController : ControllerBase
     {
-        private readonly IContext _context;
+        private readonly WorkLogDbContext _context;
 
         // GET api/sessions
         [HttpGet]
-        public ActionResult<IEnumerable<ISession>> GetSessions()
+        public ActionResult<IEnumerable<Session>> GetSessions()
         {
             return _context.Sessions;
         }
@@ -42,7 +42,7 @@ namespace WorkLogService.Api.Controllers
 
         // POST api/sessions
         [HttpPost]
-        public async Task<IActionResult> PostSession([FromBody] ISession session)
+        public async Task<IActionResult> PostSession([FromBody] Session session)
         {
             if (!ModelState.IsValid)
             {
@@ -50,14 +50,14 @@ namespace WorkLogService.Api.Controllers
             }
 
             _context.Sessions.Add(session);
-            await ((DbContext)_context).SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetSession", new { id = session.Id }, session);
         }
 
         // PUT api/sessions/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSession([FromRoute] int id, [FromBody] ISession session)
+        public async Task<IActionResult> PutSession([FromRoute] int id, [FromBody] Session session)
         {
             if (!ModelState.IsValid)
             {
@@ -69,11 +69,11 @@ namespace WorkLogService.Api.Controllers
                 return BadRequest();
             }
 
-            ((DbContext)_context).Entry(session).State = EntityState.Modified;
+            _context.Entry(session).State = EntityState.Modified;
 
             try
             {
-                await ((DbContext)_context).SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -106,7 +106,7 @@ namespace WorkLogService.Api.Controllers
             }
 
             _context.Sessions.Remove(session);
-            await ((DbContext)_context).SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return Ok(session);
         }
@@ -116,7 +116,7 @@ namespace WorkLogService.Api.Controllers
             return _context.Sessions.Any(s => s.Id == id);
         }
 
-        public SessionsController(IContext context)
+        public SessionsController(WorkLogDbContext context)
         {
             _context = context;
         }

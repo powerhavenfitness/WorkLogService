@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Linq;
-using WorkLogService.Interfaces.Core;
-using WorkLogService.Interfaces.Infrastructure;
 
 namespace WorkLogService.Core.Models
 {
-    public class Session : ISession
+    public class Session
     {
         public int Id { get; set; }
 

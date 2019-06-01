@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WorkLogService.Interfaces.Infrastructure;
-using WorkLogService.Interfaces.Core;
+using WorkLogService.Core.Models;
 
 namespace WorkLogService.Infrastructure.Contexts
 {
-    public class WorkLogDbContext: DbContext, IContext
+    public class WorkLogDbContext: DbContext
     {
-        public DbSet<ISession> Sessions { get; set; }
+        public DbSet<Session> Sessions { get; set; }
 
-        public DbSet<IWorkout> Workouts { get; set; }
+        public DbSet<Workout> Workouts { get; set; }
 
         public WorkLogDbContext(DbContextOptions<WorkLogDbContext> options) : base(options)
         {

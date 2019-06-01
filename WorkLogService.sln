@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkLogService.Core", "Work
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkLogService.Infrastructure", "WorkLogService.Infrastructure\WorkLogService.Infrastructure.csproj", "{10B58FD2-4FB2-41F2-AB55-579BF96AEFF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkLogService.Interfaces", "WorkLogService.Interfaces\WorkLogService.Interfaces.csproj", "{6876D98E-24A4-4647-BE3A-223746B4183A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{10B58FD2-4FB2-41F2-AB55-579BF96AEFF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10B58FD2-4FB2-41F2-AB55-579BF96AEFF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10B58FD2-4FB2-41F2-AB55-579BF96AEFF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6876D98E-24A4-4647-BE3A-223746B4183A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6876D98E-24A4-4647-BE3A-223746B4183A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6876D98E-24A4-4647-BE3A-223746B4183A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6876D98E-24A4-4647-BE3A-223746B4183A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

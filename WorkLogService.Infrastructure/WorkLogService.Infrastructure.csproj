@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WorkLogService.Interfaces\WorkLogService.Interfaces.csproj" />
+    <ProjectReference Include="..\WorkLogService.Core\WorkLogService.Core.csproj" />
   </ItemGroup>
 
 </Project>
