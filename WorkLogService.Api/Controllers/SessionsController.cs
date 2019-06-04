@@ -9,8 +9,8 @@ using WorkLogService.Infrastructure.Contexts;
 
 namespace WorkLogService.Api.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
+    //[Authorize]
+    [Route("[controller]")]
     [ApiController]
     public class SessionsController : ControllerBase
     {
