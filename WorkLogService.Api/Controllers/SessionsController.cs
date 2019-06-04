@@ -16,6 +16,11 @@ namespace WorkLogService.Api.Controllers
     {
         private readonly WorkLogDbContext _context;
 
+        [HttpGet("TestMe")]
+        public ActionResult TestCommand()
+        {
+            return Content("Hello from the other side of the world.");
+        }
         // GET api/sessions
         [HttpGet]
         public ActionResult<IEnumerable<Session>> GetSessions()
