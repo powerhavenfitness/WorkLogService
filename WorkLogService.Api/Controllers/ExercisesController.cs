@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorkLogService.Core.Models;
 using WorkLogService.Infrastructure.Contexts;
@@ -12,58 +12,58 @@ namespace WorkLogService.Api.Controllers
     //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkoutsController : ControllerBase
+    public class ExercisesController : ControllerBase
     {
         private readonly WorkLogDbContext _context;
 
-        public WorkoutsController(WorkLogDbContext context)
+        public ExercisesController(WorkLogDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Workouts
+        // GET: api/Exercises
         [HttpGet]
-        public IEnumerable<Workout> GetWorkouts()
+        public IEnumerable<Exercise> GetExercises()
         {
-            return _context.Workouts;
+            return _context.Exercises;
         }
 
-        // GET: api/Workouts/5
+        // GET: api/Exercises/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetWorkout([FromRoute] int id)
+        public async Task<IActionResult> GetExercise([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var workout = await _context.Workouts.FindAsync(id);
+            var exercise = await _context.Exercises.FindAsync(id);
 
-            if (workout == null)
+            if (exercise == null)
             {
                 return NotFound();
             }
 
-            return Ok(workout);
+            return Ok(exercise);
         }
 
-        // PUT: api/Workouts/5
+        // PUT: api/Exercises/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkout([FromRoute] int id, [FromBody] Workout workout)
+        public async Task<IActionResult> PutExercise([FromRoute] int id, [FromBody] Exercise exercise)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != workout.Id)
+            if (id != exercise.Id)
             {
                 return BadRequest();
             }
 
-            workout.SetDateUpated();
+            exercise.SetDateUpated();
 
-            _context.Entry(workout).State = EntityState.Modified;
+            _context.Entry(exercise).State = EntityState.Modified;
 
             try
             {
@@ -71,7 +71,7 @@ namespace WorkLogService.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!WorkoutExists(id))
+                if (!ExerciseExists(id))
                 {
                     return NotFound();
                 }
@@ -84,47 +84,47 @@ namespace WorkLogService.Api.Controllers
             return NoContent();
         }
 
-        // POST: api/Workouts
+        // POST: api/Exercises
         [HttpPost]
-        public async Task<IActionResult> PostWorkout([FromBody] Workout workout)
+        public async Task<IActionResult> PostExercise([FromBody] Exercise exercise)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            workout.SetDateCreated();
+            exercise.SetDateCreated();
 
-            _context.Workouts.Add(workout);
+            _context.Exercises.Add(exercise);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWorkout", new { id = workout.Id }, workout);
+            return CreatedAtAction("GetExercise", new { id = exercise.Id }, exercise);
         }
 
-        // DELETE: api/Workouts/5
+        // DELETE: api/Exercises/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWorkout([FromRoute] int id)
+        public async Task<IActionResult> DeleteExercise([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var workout = await _context.Workouts.FindAsync(id);
-            if (workout == null)
+            var exercise = await _context.Exercises.FindAsync(id);
+            if (exercise == null)
             {
                 return NotFound();
             }
 
-            _context.Workouts.Remove(workout);
+            _context.Exercises.Remove(exercise);
             await _context.SaveChangesAsync();
 
-            return Ok(workout);
+            return Ok(exercise);
         }
 
-        private bool WorkoutExists(int id)
+        private bool ExerciseExists(int id)
         {
-            return _context.Workouts.Any(e => e.Id == id);
+            return _context.Exercises.Any(e => e.Id == id);
         }
     }
 }

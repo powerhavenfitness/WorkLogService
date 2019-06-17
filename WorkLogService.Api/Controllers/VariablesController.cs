@@ -12,58 +12,58 @@ namespace WorkLogService.Api.Controllers
     //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkoutsController : ControllerBase
+    public class VariablesController : ControllerBase
     {
         private readonly WorkLogDbContext _context;
 
-        public WorkoutsController(WorkLogDbContext context)
+        public VariablesController(WorkLogDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Workouts
+        // GET: api/Variables
         [HttpGet]
-        public IEnumerable<Workout> GetWorkouts()
+        public IEnumerable<Variable> GetVariables()
         {
-            return _context.Workouts;
+            return _context.Variables;
         }
 
-        // GET: api/Workouts/5
+        // GET: api/Variables/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetWorkout([FromRoute] int id)
+        public async Task<IActionResult> GetVariable([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var workout = await _context.Workouts.FindAsync(id);
+            var variable = await _context.Variables.FindAsync(id);
 
-            if (workout == null)
+            if (variable == null)
             {
                 return NotFound();
             }
 
-            return Ok(workout);
+            return Ok(variable);
         }
 
-        // PUT: api/Workouts/5
+        // PUT: api/Variables/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkout([FromRoute] int id, [FromBody] Workout workout)
+        public async Task<IActionResult> PutVariable([FromRoute] int id, [FromBody] Variable variable)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != workout.Id)
+            if (id != variable.Id)
             {
                 return BadRequest();
             }
 
-            workout.SetDateUpated();
+            variable.SetDateUpated();
 
-            _context.Entry(workout).State = EntityState.Modified;
+            _context.Entry(variable).State = EntityState.Modified;
 
             try
             {
@@ -71,7 +71,7 @@ namespace WorkLogService.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!WorkoutExists(id))
+                if (!VariableExists(id))
                 {
                     return NotFound();
                 }
@@ -84,47 +84,47 @@ namespace WorkLogService.Api.Controllers
             return NoContent();
         }
 
-        // POST: api/Workouts
+        // POST: api/Variables
         [HttpPost]
-        public async Task<IActionResult> PostWorkout([FromBody] Workout workout)
+        public async Task<IActionResult> PostVariable([FromBody] Variable variable)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            workout.SetDateCreated();
+            variable.SetDateCreated();
 
-            _context.Workouts.Add(workout);
+            _context.Variables.Add(variable);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWorkout", new { id = workout.Id }, workout);
+            return CreatedAtAction("GetVariable", new { id = variable.Id }, variable);
         }
 
-        // DELETE: api/Workouts/5
+        // DELETE: api/Variables/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWorkout([FromRoute] int id)
+        public async Task<IActionResult> DeleteVariable([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var workout = await _context.Workouts.FindAsync(id);
-            if (workout == null)
+            var variable = await _context.Variables.FindAsync(id);
+            if (variable == null)
             {
                 return NotFound();
             }
 
-            _context.Workouts.Remove(workout);
+            _context.Variables.Remove(variable);
             await _context.SaveChangesAsync();
 
-            return Ok(workout);
+            return Ok(variable);
         }
 
-        private bool WorkoutExists(int id)
+        private bool VariableExists(int id)
         {
-            return _context.Workouts.Any(e => e.Id == id);
+            return _context.Variables.Any(e => e.Id == id);
         }
     }
 }

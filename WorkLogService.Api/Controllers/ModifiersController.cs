@@ -12,58 +12,58 @@ namespace WorkLogService.Api.Controllers
     //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkoutsController : ControllerBase
+    public class ModifiersController : ControllerBase
     {
         private readonly WorkLogDbContext _context;
 
-        public WorkoutsController(WorkLogDbContext context)
+        public ModifiersController(WorkLogDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Workouts
+        // GET: api/Modifiers
         [HttpGet]
-        public IEnumerable<Workout> GetWorkouts()
+        public IEnumerable<Modifier> GetModifiers()
         {
-            return _context.Workouts;
+            return _context.Modifiers;
         }
 
-        // GET: api/Workouts/5
+        // GET: api/Modifiers/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetWorkout([FromRoute] int id)
+        public async Task<IActionResult> GetModifier([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var workout = await _context.Workouts.FindAsync(id);
+            var modifier = await _context.Modifiers.FindAsync(id);
 
-            if (workout == null)
+            if (modifier == null)
             {
                 return NotFound();
             }
 
-            return Ok(workout);
+            return Ok(modifier);
         }
 
-        // PUT: api/Workouts/5
+        // PUT: api/Modifiers/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkout([FromRoute] int id, [FromBody] Workout workout)
+        public async Task<IActionResult> PutModifier([FromRoute] int id, [FromBody] Modifier modifier)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != workout.Id)
+            if (id != modifier.Id)
             {
                 return BadRequest();
             }
 
-            workout.SetDateUpated();
+            modifier.SetDateUpated();
 
-            _context.Entry(workout).State = EntityState.Modified;
+            _context.Entry(modifier).State = EntityState.Modified;
 
             try
             {
@@ -71,7 +71,7 @@ namespace WorkLogService.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!WorkoutExists(id))
+                if (!ModifierExists(id))
                 {
                     return NotFound();
                 }
@@ -84,47 +84,47 @@ namespace WorkLogService.Api.Controllers
             return NoContent();
         }
 
-        // POST: api/Workouts
+        // POST: api/Modifiers
         [HttpPost]
-        public async Task<IActionResult> PostWorkout([FromBody] Workout workout)
+        public async Task<IActionResult> PostModifier([FromBody] Modifier modifier)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            workout.SetDateCreated();
+            modifier.SetDateCreated();
 
-            _context.Workouts.Add(workout);
+            _context.Modifiers.Add(modifier);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWorkout", new { id = workout.Id }, workout);
+            return CreatedAtAction("GetModifier", new { id = modifier.Id }, modifier);
         }
 
-        // DELETE: api/Workouts/5
+        // DELETE: api/Modifiers/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWorkout([FromRoute] int id)
+        public async Task<IActionResult> DeleteModifier([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var workout = await _context.Workouts.FindAsync(id);
-            if (workout == null)
+            var modifier = await _context.Modifiers.FindAsync(id);
+            if (modifier == null)
             {
                 return NotFound();
             }
 
-            _context.Workouts.Remove(workout);
+            _context.Modifiers.Remove(modifier);
             await _context.SaveChangesAsync();
 
-            return Ok(workout);
+            return Ok(modifier);
         }
 
-        private bool WorkoutExists(int id)
+        private bool ModifierExists(int id)
         {
-            return _context.Workouts.Any(e => e.Id == id);
+            return _context.Modifiers.Any(e => e.Id == id);
         }
     }
 }

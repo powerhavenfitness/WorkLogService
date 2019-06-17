@@ -12,58 +12,58 @@ namespace WorkLogService.Api.Controllers
     //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkoutsController : ControllerBase
+    public class SetsController : ControllerBase
     {
         private readonly WorkLogDbContext _context;
 
-        public WorkoutsController(WorkLogDbContext context)
+        public SetsController(WorkLogDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Workouts
+        // GET: api/Sets
         [HttpGet]
-        public IEnumerable<Workout> GetWorkouts()
+        public IEnumerable<Set> GetSets()
         {
-            return _context.Workouts;
+            return _context.Sets;
         }
 
-        // GET: api/Workouts/5
+        // GET: api/Sets/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetWorkout([FromRoute] int id)
+        public async Task<IActionResult> GetSet([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var workout = await _context.Workouts.FindAsync(id);
+            var @set = await _context.Sets.FindAsync(id);
 
-            if (workout == null)
+            if (@set == null)
             {
                 return NotFound();
             }
 
-            return Ok(workout);
+            return Ok(@set);
         }
 
-        // PUT: api/Workouts/5
+        // PUT: api/Sets/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkout([FromRoute] int id, [FromBody] Workout workout)
+        public async Task<IActionResult> PutSet([FromRoute] int id, [FromBody] Set @set)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != workout.Id)
+            if (id != @set.Id)
             {
                 return BadRequest();
             }
 
-            workout.SetDateUpated();
+            @set.SetDateUpated();
 
-            _context.Entry(workout).State = EntityState.Modified;
+            _context.Entry(@set).State = EntityState.Modified;
 
             try
             {
@@ -71,7 +71,7 @@ namespace WorkLogService.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!WorkoutExists(id))
+                if (!SetExists(id))
                 {
                     return NotFound();
                 }
@@ -84,47 +84,47 @@ namespace WorkLogService.Api.Controllers
             return NoContent();
         }
 
-        // POST: api/Workouts
+        // POST: api/Sets
         [HttpPost]
-        public async Task<IActionResult> PostWorkout([FromBody] Workout workout)
+        public async Task<IActionResult> PostSet([FromBody] Set @set)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            workout.SetDateCreated();
+            @set.SetDateCreated();
 
-            _context.Workouts.Add(workout);
+            _context.Sets.Add(@set);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWorkout", new { id = workout.Id }, workout);
+            return CreatedAtAction("GetSet", new { id = @set.Id }, @set);
         }
 
-        // DELETE: api/Workouts/5
+        // DELETE: api/Sets/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWorkout([FromRoute] int id)
+        public async Task<IActionResult> DeleteSet([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var workout = await _context.Workouts.FindAsync(id);
-            if (workout == null)
+            var @set = await _context.Sets.FindAsync(id);
+            if (@set == null)
             {
                 return NotFound();
             }
 
-            _context.Workouts.Remove(workout);
+            _context.Sets.Remove(@set);
             await _context.SaveChangesAsync();
 
-            return Ok(workout);
+            return Ok(@set);
         }
 
-        private bool WorkoutExists(int id)
+        private bool SetExists(int id)
         {
-            return _context.Workouts.Any(e => e.Id == id);
+            return _context.Sets.Any(e => e.Id == id);
         }
     }
 }
