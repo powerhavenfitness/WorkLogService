@@ -2,14 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using WorkLogService.Core.Models;
 using WorkLogService.Infrastructure.Contexts;
 
 namespace WorkLogService.Api.Controllers
 {
-    //[Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class SessionsController : ControllerBase
@@ -61,8 +60,6 @@ namespace WorkLogService.Api.Controllers
                 return BadRequest();
             }
 
-            session.SetDateUpated();
-
             _context.Entry(session).State = EntityState.Modified;
 
             try
@@ -92,8 +89,6 @@ namespace WorkLogService.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            session.SetDateCreated();
 
             _context.Sessions.Add(session);
             await _context.SaveChangesAsync();

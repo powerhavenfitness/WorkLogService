@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorkLogService.Core.Models;
@@ -9,7 +8,6 @@ using WorkLogService.Infrastructure.Contexts;
 
 namespace WorkLogService.Api.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ExercisesController : ControllerBase
@@ -61,8 +59,6 @@ namespace WorkLogService.Api.Controllers
                 return BadRequest();
             }
 
-            exercise.SetDateUpated();
-
             _context.Entry(exercise).State = EntityState.Modified;
 
             try
@@ -92,8 +88,6 @@ namespace WorkLogService.Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            exercise.SetDateCreated();
 
             _context.Exercises.Add(exercise);
             await _context.SaveChangesAsync();

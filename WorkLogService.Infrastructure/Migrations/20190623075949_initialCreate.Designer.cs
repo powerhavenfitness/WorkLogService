@@ -10,8 +10,8 @@ using WorkLogService.Infrastructure.Contexts;
 namespace WorkLogService.Infrastructure.Migrations
 {
     [DbContext(typeof(WorkLogDbContext))]
-    [Migration("20190617153525_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20190623075949_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,27 +36,6 @@ namespace WorkLogService.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Exercises");
-                });
-
-            modelBuilder.Entity("WorkLogService.Core.Models.Modifier", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<DateTime>("DateUpdated");
-
-                    b.Property<string>("Value");
-
-                    b.Property<int>("VariableId");
-
-                    b.Property<int>("WorkoutId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Modifiers");
                 });
 
             modelBuilder.Entity("WorkLogService.Core.Models.Session", b =>
@@ -95,23 +74,6 @@ namespace WorkLogService.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sets");
-                });
-
-            modelBuilder.Entity("WorkLogService.Core.Models.Variable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<DateTime>("DateUpdated");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Variables");
                 });
 
             modelBuilder.Entity("WorkLogService.Core.Models.Workout", b =>
